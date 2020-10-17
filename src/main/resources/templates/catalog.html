@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header :: header"></div>
+    <p>"</p>
+    <p>"</p>
+    <h4 th:text="${category}"/>
+    <div th:if="${goods}" th:each="good : ${goods}">
+        <a th:href="@{/catalog/{category}/{id}(category=${good.categoryOfGood.categoryName.categoryName}, id=${good.id})}" th:text="${good.name}"/>
+    </div>
+    <div th:unless="${goods}">
+        <p>There are no products in this category yet</p>
+    </div>
+</body>
+</html>

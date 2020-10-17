@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header :: header"></div>
+    <p>"</p>
+    <p>"</p>
+    <h4 th:text="${goodName}"/>
+    <p th:text="${goodDescription}"/>
+    <p th:text="${available}"/>
+    <p th:text="${price}"/>
+    <div th:if="${#httpServletRequest.remoteUser}">
+        <form th:action="@{/add_to_cart}" method="post">
+            <div><input type="hidden" name="id" th:value="*{good_id}"/></div>
+            <div><label> Quantity : <input type="number" name="quantity" placeholder="1" required value="1" min="1" max="10"/>  </label><input type="submit" class="btn btn-secondary my-2 my-sm-0" value="Add to cart"/></div>
+        </form>
+    </div>
+    <div th:unless="${#httpServletRequest.remoteUser}">
+        <p>To add a product to the cart, please log in.</p>
+    </div>
+</body>
+</html>

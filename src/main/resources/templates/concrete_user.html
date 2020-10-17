@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header :: header"></div>
+    <p>"</p>
+    <p>"</p>
+    <h4>User info</h4>
+    <p>User id: <span th:text="${user.id}"/></p>
+    <p>User login: <span th:text="${user.login}"/></p>
+    <p>Current user is active: <span th:text="${user.active}"/></p>
+    <p>Current user role: <span th:text="${user.role.typeOfUserRights.typeOfUserRights}"/></p>
+    <form th:action="@{/menu/all_users/{id}(id=${user.id})}" method="post">
+        <div><label> Choose variant : <select name="isActive">
+            <option>Block</option>
+            <option>Unblock</option>
+        </select></label></div>
+        <div><label> Choose variant : <select name="userRole">
+            <option th:each="role : ${allRoles}"
+                    th:value="${role.id}"
+                    th:utext="${role.typeOfUserRights.typeOfUserRights}"/>
+        </select></label></div>
+        <div><input type="submit" class="btn btn-secondary my-2 my-sm-0" value="Save"/></div>
+    </form>
+</body>
+</html>

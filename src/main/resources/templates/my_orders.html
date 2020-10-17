@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header :: header"></div>
+    <p>"</p>
+    <p>"</p>
+    <h4>My orders</h4>
+    <div th:if="${orders}">
+        <table th:each="order : ${orders}" style="width: 600px;">
+            <thead style="background: #fc0">
+            <tr>
+                <th>Name of good</th>
+                <th>Current quantity</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody style="background: #ccc">
+            <tr th:each="goodInOrder : ${order.getGoodsInOrder()}">
+                <td><a th:href="@{/catalog/{category}/{id}(category=${goodInOrder.good.categoryOfGood.categoryName}, id=${goodInOrder.good.id})}" th:text="${goodInOrder.good.name}"/></td>
+                <td th:text="${goodInOrder.numberOfGoods}"/>
+                <td th:text="${goodInOrder.numberOfGoods * goodInOrder.price}"/>
+            </tr>
+            </tbody>
+            <p>----------------------------------------------------------------------------------------------</p>
+            <p>Order date and time: <span th:text="${order.orderDateTime}"/></p>
+            <p>Delivery type: <span th:text="${order.deliveryTypeOrder.deliveryType.deliveryTypeName}"/></p>
+            <p>Payment type: <span th:text="${order.paymentTypeOrder.paymentType.paymentTypeName}"/></p>
+            <p>Order status: <span th:text="${order.statusOrder.status.statusName}"/></p>
+            <p>Total price: <span th:text="${order.totalPrice}"/> USD</p>
+        </table>
+    </div>
+    <div th:unless="${orders}">
+        <p>You have no orders yet</p>
+    </div>
+</body>
+</html>

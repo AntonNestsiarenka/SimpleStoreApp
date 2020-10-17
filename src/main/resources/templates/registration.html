@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header :: header"></div>
+    <div class="text-input">
+        <p>"</p>
+        <p>"</p>
+        <h3>New user registration:</h3>
+        <p>Fields marked with * are required!</p>
+    <form th:action="@{/registration}" th:object="${registrationForm}" method="post">
+        <div><label> Login * : <input type="text" placeholder="Max size 20 symbols" required minlength="6" maxlength="20" th:field="*{login}" pattern="^[a-zA-Z][a-zA-Z-_.\d]{4,18}[a-zA-Z\d]$" title="Login must start with a character [a-zA-Z]. It can contain symbols [a-zA-Z], digits, dashes, underscores and dots. The allowed length is 6 to 20 characters. Login must not end with a period, dash or underscore."/></label></div>
+        <div><label> Email * : <input type="email" placeholder="Max size 100 symbols" required maxlength="100" th:field="*{email}" pattern="^[a-zA-Z\d_-]+(\.[a-zA-Z\d_-]+)*@[a-zA-Z\d_-]+(\.[a-zA-Z\d_-]+)*(\.[a-zA-Z]{2,})$" title="Email is not valid."/></label></div>
+        <div><label> Password * : <input type="password" placeholder="Min size 7 symbols" required minlength="7" maxlength="20" th:field="*{password}" pattern="^[a-zA-Z\d_]{7,20}$" title="The password can contain characters [a-zA-Z], digits, and underscores. The allowed length is from 7 to 20 characters."/></label></div>
+        <div><label> Name : <input type="text" placeholder="Max size 20" minlength="2" maxlength="20" th:field="*{name}" pattern="^[a-zA-Zа-яА-Я]{2,20}$" title="The name can contain characters [a-zA-Z]. The allowed length is from 2 to 20 characters."/> </label></div>
+        <div><label> Surname : <input type="text" placeholder="Max size 20" minlength="2" maxlength="20" th:field="*{surname}" pattern="^[a-zA-Zа-яА-Я]{2,20}$" title="The surname can contain characters [a-zA-Z]. The allowed length is from 2 to 20 characters."/></label></div>
+        <div><label> Tel : <input type="text" placeholder="+375441455120" minlength="12" maxlength="13" th:field="*{tel}" pattern="^\+?375(25|29|44)\d{7}$" title="Telephone number must be in format +375{29|44|25}XXXXXXX. Symbol + is not required."/></label></div>
+        <div><input type="submit" class="btn btn-secondary my-2 my-sm-0" value="Register"/></div>
+    </form>
+    </div>
+    <div th:if="${message}">
+        <p th:text="${message}"/>
+    </div>
+</body>
+</html>

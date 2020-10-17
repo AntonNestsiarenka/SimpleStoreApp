@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header_user_menu :: commonMenu"></div>
+    <div><p>-  <a href="/add_good">Add good to catalog</a></p></div>
+    <div><p>-  <a href="/menu/all_users">Moderate users</a></p></div>
+</body>
+</html>

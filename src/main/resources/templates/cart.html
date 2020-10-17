@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header :: header"></div>
+    <p>"</p>
+    <p>"</p>
+    <h4>My cart</h4>
+    <div th:if="${goodsInBasket}">
+        <table style="width: 600px;">
+            <thead style="background: #fc0">
+            <tr>
+                <th>Name of good</th>
+                <th>Available quantity</th>
+                <th>Current quantity</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody style="background: #ccc">
+            <tr th:each="goodInBasket : ${goodsInBasket}">
+                <td><a th:href="@{/catalog/{category}/{id}(category=${goodInBasket.good.categoryOfGood.categoryName}, id=${goodInBasket.good.id})}" th:text="${goodInBasket.good.name}"/></td>
+                <td th:text="${goodInBasket.good.numberOfAvailable}"/>
+                <td th:text="${goodInBasket.numberOfGoods}"/>
+                <td th:text="${goodInBasket.numberOfGoods * goodInBasket.good.price}"/>
+            </tr>
+            </tbody>
+        </table>
+        <p th:text="${commonPrice}"/>
+        <div>
+            <form th:action="@{clear_cart}" method="get">
+                <input type="submit" class="btn btn-secondary my-2 my-sm-0" value="Clear cart"/>
+            </form>
+            <form th:action="@{/menu/cart/order_now}" method="post">
+                <div><label> Choose delivery type : <select name="deliveryType">
+                    <option th:each="deliveryType : ${deliveryTypes}"
+                            th:value="${deliveryType.id}"
+                            th:utext="${deliveryType.deliveryType.deliveryTypeName}"/>
+                </select></label></div>
+                <div><label> Choose payment type : <select name="paymentType">
+                    <option th:each="paymentType : ${paymentTypes}"
+                            th:value="${paymentType.id}"
+                            th:utext="${paymentType.paymentType.paymentTypeName}"/>
+                </select></label></div>
+                <input type="submit" class="btn btn-secondary my-2 my-sm-0" value="Order now"/>
+            </form>
+        </div>
+    </div>
+    <div th:unless="${goodsInBasket}">
+        <p>Your cart is currently empty</p>
+    </div>
+</body>
+</html>

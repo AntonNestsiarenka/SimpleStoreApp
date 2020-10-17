@@ -1,0 +1,8 @@
+<div th:fragment="commonMenu" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div th:insert="common_blocks/header :: header"></div>
+    <p>"</p>
+    <p>"</p>
+    <h4 th:text="${title}"/>
+    <div><p>-  <a href="/cart">My cart</a></p></div>
+    <div><p>-  <a th:href="@{/menu/my_orders}">My orders</a></p></div>
+</div>

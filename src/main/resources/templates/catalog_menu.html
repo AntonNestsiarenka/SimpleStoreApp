@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header :: header"></div>
+    <p>"</p>
+    <p>"</p>
+    <h4>Catalog of goods:</h4>
+    <div><p>-  <a href="/catalog/mobile_phones">Mobile phones</a></p></div>
+    <div><p>-  <a href="/catalog/tablets">Tablets</a></p></div>
+    <div><p>-  <a href="/catalog/tv_s">TV</a></p></div>
+    <div><p>-  <a href="/catalog/gaming_consoles">Gaming consoles</a></p></div>
+    <div><p>-  <a href="/catalog/monitors">Monitors</a></p></div>
+    <div><p>-  <a href="/catalog/laptops">Laptops</a></p></div>
+    <div><p>-  <a href="/catalog/cameras">Cameras</a></p></div>
+</body>
+</html>

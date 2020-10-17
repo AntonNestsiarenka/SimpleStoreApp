@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header :: header"></div>
+    <div class="text-input">
+        <p>"</p>
+        <p>"</p>
+        <h4>Add good to catalog:</h4>
+        <p>Fields marked with * are required!</p>
+        <form th:action="@{/add_good}" th:object="${addGoodForm}" method="post">
+            <div><label> Name * : <input type="text" placeholder="Max size 100 symbols" required maxlength="100" th:field="*{name}"/></label></div>
+            <div><label> Description : <input type="text" placeholder="Max size 200 symbols" maxlength="200" th:field="*{description}"/></label></div>
+            <div><label> Number of available * : <input type="number" placeholder="1" required value="1" min="1" max="999" th:field="*{numberOfAvailable}"/></label></div>
+            <div><label> Price * : <input type="number" placeholder="USD" required step="0.01" min="0.01" th:field="*{price}"/> </label></div>
+            <div><label> Choose category * : <select name="selectCategory" size="6" multiple required th:field="*{categoryOfGood}">
+                <option value=""> -- </option>
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:utext="${category.categoryName.categoryName}"/>
+            </select></label></div>
+            <div><label> Choose manufacturer * : <select name="selectManufacturer" size="6" multiple required th:field="*{manufacturer}">
+                <option value=""> -- </option>
+                <option th:each="manufacturer : ${manufacturers}"
+                        th:value="${manufacturer.id}"
+                        th:utext="${manufacturer.name}"/>
+            </select></label></div>
+            <div><input type="submit" class="btn btn-secondary my-2 my-sm-0" value="Add good"/></div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header :: header"></div>
+    <p>"</p>
+    <p>"</p>
+    <h4>All users</h4>
+    <div th:each="userDto : ${allUsersDto}">
+        <a th:href="@{/menu/all_users/{id}(id=${userDto.id})}" th:text="${userDto.login}"/>
+    </div>
+</body>
+</html>

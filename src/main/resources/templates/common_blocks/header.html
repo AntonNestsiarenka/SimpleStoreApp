@@ -1,0 +1,34 @@
+<div th:fragment="header" xmlns:th="http://www.w3.org/1999/xhtml">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/catalog">Catalog</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/services">Services</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/contacts">Contacts</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/reviews">Reviews</a>
+                </li>
+            </ul>
+            <div th:if="${#httpServletRequest.remoteUser}">
+                <form th:action="@{/logout}" method="post">
+                    <div style="color:#ffff00">Hello, <a style="color:#ffff00" href="/menu" th:inline="text">[[${#httpServletRequest.remoteUser}]]! </a><input type="submit" class="btn btn-secondary my-2 my-sm-0" value="Sign Out"/></div>
+                </form>
+            </div>
+            <div th:unless="${#httpServletRequest.remoteUser}">
+                <a class="btn btn-secondary my-2 my-sm-0" href="/entry">Sign In</a>
+            </div>
+        </div>
+    </nav>
+</div>

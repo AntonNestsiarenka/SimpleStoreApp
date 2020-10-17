@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:insert="common_blocks/header :: header"></div>
+    <p>"</p>
+    <p>"</p>
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <h3>Entry:</h3>
+    <form th:action="@{/entry}" method="post">
+        <div><label> Login : <input type="text" name="username"/> </label></div>
+        <div><label> Password : <input type="password" name="password"/> </label></div>
+        <div><input type="submit" class="btn btn-secondary my-2 my-sm-0" value="Sign In"/></div>
+        <div><a href="/registration">New user registration</a></div>
+    </form>
+</body>
+</html>
