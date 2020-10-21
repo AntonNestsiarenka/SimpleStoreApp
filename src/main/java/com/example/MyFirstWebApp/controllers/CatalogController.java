@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -111,7 +113,7 @@ public class CatalogController {
         model.addAttribute("goodName", foundGood.getName());
         model.addAttribute("goodDescription", foundGood.getDescription());
         model.addAttribute("available", "Available for order: " + foundGood.getNumberOfAvailable());
-        model.addAttribute("price", "Price: " + foundGood.getPrice() + " USD");
+        model.addAttribute("price", "Price: " + foundGood.getPrice().setScale(3, BigDecimal.ROUND_CEILING) + " USD");
         return "concrete_good";
     }
 }

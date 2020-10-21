@@ -1,8 +1,8 @@
 package com.example.MyFirstWebApp.domain;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "baskets")
@@ -12,7 +12,7 @@ public class Basket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @OneToMany(mappedBy = "basket", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<GoodInBasket> goodsInBasket;
+    private Set<GoodsBaskets> goodsBaskets;
 
     public Basket()
     {
@@ -23,12 +23,12 @@ public class Basket {
         return id;
     }
 
-    public List<GoodInBasket> getGoodsInBasket() {
-        return goodsInBasket;
+    public Set<GoodsBaskets> getGoodsBaskets() {
+        return goodsBaskets;
     }
 
-    public void setGoodsInBasket(List<GoodInBasket> goodsInBasket) {
-        this.goodsInBasket = goodsInBasket;
+    public void setGoodsInBasket(Set<GoodsBaskets> goodsBaskets) {
+        this.goodsBaskets = goodsBaskets;
     }
 
     @Override

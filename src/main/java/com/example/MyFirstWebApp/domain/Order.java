@@ -3,8 +3,8 @@ package com.example.MyFirstWebApp.domain;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -18,7 +18,7 @@ public class Order {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<GoodInOrder> goodsInOrder;
+    private Set<GoodsOrders> goodsOrders;
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "status", nullable = false)
     private StatusOrder statusOrder;
@@ -58,8 +58,8 @@ public class Order {
         return totalPrice;
     }
 
-    public List<GoodInOrder> getGoodsInOrder() {
-        return goodsInOrder;
+    public Set<GoodsOrders> getGoodsOrders() {
+        return goodsOrders;
     }
 
     public StatusOrder getStatusOrder() {
@@ -78,8 +78,8 @@ public class Order {
         return user;
     }
 
-    public void setGoodsInOrder(List<GoodInOrder> goodsInOrder) {
-        this.goodsInOrder = goodsInOrder;
+    public void setGoodsOrders(Set<GoodsOrders> goodsOrders) {
+        this.goodsOrders = goodsOrders;
     }
 
     @Override

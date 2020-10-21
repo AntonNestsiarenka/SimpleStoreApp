@@ -20,10 +20,10 @@
             </tr>
             </thead>
             <tbody style="background: #ccc">
-            <tr th:each="goodInOrder : ${order.getGoodsInOrder()}">
+            <tr th:each="goodInOrder : ${order.goodsOrders}">
                 <td><a th:href="@{/catalog/{category}/{id}(category=${goodInOrder.good.categoryOfGood.categoryName}, id=${goodInOrder.good.id})}" th:text="${goodInOrder.good.name}"/></td>
-                <td th:text="${goodInOrder.numberOfGoods}"/>
-                <td th:text="${goodInOrder.numberOfGoods * goodInOrder.price}"/>
+                <td th:text="${goodInOrder.quantity}"/>
+                <td th:text="${goodInOrder.quantity * goodInOrder.priceForOne}"/>
             </tr>
             </tbody>
             <p>----------------------------------------------------------------------------------------------</p>

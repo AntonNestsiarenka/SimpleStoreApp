@@ -1,9 +1,9 @@
 package com.example.MyFirstWebApp.services;
 
-import com.example.MyFirstWebApp.domain.GoodInBasket;
+import com.example.MyFirstWebApp.domain.GoodsBaskets;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 @Component
 public class BasketService {
@@ -12,12 +12,12 @@ public class BasketService {
 
     }
 
-    public BigDecimal priceRefresh(List<GoodInBasket> goodsInBasket)
+    public BigDecimal priceRefresh(Set<GoodsBaskets> goodsInBasket)
     {
         BigDecimal price = new BigDecimal(0);
-        for(GoodInBasket goodInBasket : goodsInBasket)
+        for(GoodsBaskets goodInBasket : goodsInBasket)
         {
-            price = price.add(goodInBasket.getGood().getPrice().multiply(new BigDecimal(goodInBasket.getNumberOfGoods())));
+            price = price.add(goodInBasket.getGood().getPrice().multiply(new BigDecimal(goodInBasket.getQuantity())));
         }
         return price;
     }

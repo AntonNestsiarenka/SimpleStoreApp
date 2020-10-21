@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/menu")
@@ -31,10 +32,10 @@ public class OrderController {
     private OrderRepository orderRepository;
 
     @Autowired
-    private GoodInBasketRepository goodInBasketRepository;
+    private GoodsBasketsRepository goodsBasketsRepository;
 
     @Autowired
-    private GoodInOrderRepository goodInOrderRepository;
+    private GoodsOrdersRepository goodsOrdersRepository;
 
     @GetMapping("/my_orders")
     public String myOrders(Authentication authentication, Model model)
@@ -52,19 +53,19 @@ public class OrderController {
     public String doOrder(@RequestParam DeliveryTypeOrder deliveryType, @RequestParam PaymentTypeOrder paymentType, Authentication authentication, Model model)
     {
         User currentUser = userRepository.findByLogin(authentication.getName());
-        List<GoodInBasket> goodsInUserBasket = currentUser.getBasket().getGoodsInBasket();
+        Set<GoodsBaskets> goodsInUserBasket = currentUser.getBasket().getGoodsBaskets();
         Order order = new Order(new Timestamp(System.currentTimeMillis()), basketService.priceRefresh(goodsInUserBasket),
                 statusOrderRepository.findByStatus(StatusOrder.Status.PROCESSING),
                 deliveryType,
                 paymentType,
                 currentUser);
         orderRepository.save(order);
-        for (GoodInBasket goodInUserBasket : goodsInUserBasket)
+        for (GoodsBaskets goodInUserBasket : goodsInUserBasket)
         {
-            goodInOrderRepository.save(new GoodInOrder(goodInUserBasket.getGood().getPrice(), goodInUserBasket.getGood(), goodInUserBasket.getNumberOfGoods(), orderRepository.getOne(order.getId())));
+            goodsOrdersRepository.save(new GoodsOrders(new GoodOrderKey(goodInUserBasket.getGood().getId(), order.getId()), goodInUserBasket.getGood(), order, goodInUserBasket.getQuantity(), goodInUserBasket.getGood().getPrice()));
         }
-        currentUser.getBasket().getGoodsInBasket().clear();
-        goodInBasketRepository.deleteAll(currentUser.getBasket().getGoodsInBasket());
+        currentUser.getBasket().getGoodsBaskets().clear();
+        goodsBasketsRepository.deleteAll(currentUser.getBasket().getGoodsBaskets());
         return "redirect:/menu/my_orders";
     }
 }

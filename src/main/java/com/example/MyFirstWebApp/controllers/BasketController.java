@@ -1,8 +1,6 @@
 package com.example.MyFirstWebApp.controllers;
 
-import com.example.MyFirstWebApp.domain.Good;
-import com.example.MyFirstWebApp.domain.GoodInBasket;
-import com.example.MyFirstWebApp.domain.User;
+import com.example.MyFirstWebApp.domain.*;
 import com.example.MyFirstWebApp.repository.*;
 import com.example.MyFirstWebApp.services.BasketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.List;
+
+import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class BasketController {
@@ -24,10 +25,10 @@ public class BasketController {
     private UserRepository userRepository;
 
     @Autowired
-    private GoodInBasketRepository goodInBasketRepository;
+    private BasketService basketService;
 
     @Autowired
-    private BasketService basketService;
+    private GoodsBasketsRepository goodsBasketsRepository;
 
     @Autowired
     private PaymentTypeOrderRepository paymentTypeOrderRepository;
@@ -40,13 +41,13 @@ public class BasketController {
     {
         model.addAttribute("title", "My cart");
         User currentUser = userRepository.findByLogin(authentication.getName());
-        List<GoodInBasket> goodsInBasket = currentUser.getBasket().getGoodsInBasket();
-        if (!goodsInBasket.isEmpty()) {
+        Set<GoodsBaskets> goodsBaskets = currentUser.getBasket().getGoodsBaskets();
+        if (!goodsBaskets.isEmpty()) {
 
             model.addAttribute("deliveryTypes", deliveryTypeOrderRepository.findAll());
             model.addAttribute("paymentTypes", paymentTypeOrderRepository.findAll());
-            model.addAttribute("goodsInBasket", goodsInBasket);
-            model.addAttribute("commonPrice", "Common price:" + basketService.priceRefresh(goodsInBasket).setScale(3) + " USD");
+            model.addAttribute("goodsInBasket", goodsBaskets);
+            model.addAttribute("commonPrice", "Common price:" + basketService.priceRefresh(goodsBaskets).setScale(3, BigDecimal.ROUND_CEILING) + " USD");
         }
         return "cart";
     }
@@ -56,22 +57,23 @@ public class BasketController {
     {
         Good foundGood = goodRepository.findById(id);
         User currentUser = userRepository.findByLogin(authentication.getName());
-        GoodInBasket foundGoodInBasket = goodInBasketRepository.findByGood_Id(id);
-        if (goodInBasketRepository.findByGood_Id(id) == null) {
-            goodInBasketRepository.save(new GoodInBasket(foundGood, quantity, currentUser.getBasket()));
+        Optional<GoodsBaskets> foundGoodsBaskets = goodsBasketsRepository.findById(new GoodBasketKey(id, currentUser.getBasket().getId()));
+        if (foundGoodsBaskets.isPresent() && currentUser.getBasket().getGoodsBaskets().contains(foundGoodsBaskets.get())) {
+            foundGoodsBaskets.get().setQuantity(foundGoodsBaskets.get().getQuantity() + quantity);
+            goodsBasketsRepository.save(foundGoodsBaskets.get());
         }
         else {
-            foundGoodInBasket.setNumberOfGoods(foundGoodInBasket.getNumberOfGoods() + quantity);
-            goodInBasketRepository.save(foundGoodInBasket);
+            GoodsBaskets goodsBasketsNew = new GoodsBaskets(new GoodBasketKey(id, currentUser.getBasket().getId()), foundGood, currentUser.getBasket(), quantity);
+            goodsBasketsRepository.save(goodsBasketsNew);
         }
         return "redirect:/cart";
     }
 
     @PostMapping("/remove")
-    public String removeFromCart(@RequestParam GoodInBasket goodInBasket, Model model)
+    public String removeFromCart(@RequestParam GoodsBaskets goodsBaskets, Model model)
     {
-        goodInBasket.getBasket().getGoodsInBasket().remove(goodInBasket);
-        goodInBasketRepository.deleteById(goodInBasket.getId());
+        goodsBaskets.getBasket().getGoodsBaskets().remove(goodsBaskets);
+        goodsBasketsRepository.deleteById(goodsBaskets.getId());
         return "redirect:/cart";
     }
 
@@ -79,8 +81,8 @@ public class BasketController {
     public String clearCart(Authentication authentication, Model model)
     {
         User currentUser = userRepository.findByLogin(authentication.getName());
-        currentUser.getBasket().getGoodsInBasket().clear();
-        goodInBasketRepository.deleteAll(currentUser.getBasket().getGoodsInBasket());
+        currentUser.getBasket().getGoodsBaskets().clear();
+        goodsBasketsRepository.deleteAll(currentUser.getBasket().getGoodsBaskets());
         return "redirect:/cart";
     }
 }

@@ -24,8 +24,8 @@
             <tr th:each="goodInBasket : ${goodsInBasket}">
                 <td><a th:href="@{/catalog/{category}/{id}(category=${goodInBasket.good.categoryOfGood.categoryName}, id=${goodInBasket.good.id})}" th:text="${goodInBasket.good.name}"/></td>
                 <td th:text="${goodInBasket.good.numberOfAvailable}"/>
-                <td th:text="${goodInBasket.numberOfGoods}"/>
-                <td th:text="${goodInBasket.numberOfGoods * goodInBasket.good.price}"/>
+                <td th:text="${goodInBasket.quantity}"/>
+                <td th:text="${goodInBasket.quantity * goodInBasket.good.price}"/>
             </tr>
             </tbody>
         </table>

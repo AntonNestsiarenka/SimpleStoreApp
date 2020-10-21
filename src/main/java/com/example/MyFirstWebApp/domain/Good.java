@@ -55,6 +55,30 @@ public class Good {
         return price;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public void setNumberOfAvailable(Integer numberOfAvailable) {
+        this.numberOfAvailable = numberOfAvailable;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCategoryOfGood(CategoryOfGood categoryOfGood) {
+        this.categoryOfGood = categoryOfGood;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
